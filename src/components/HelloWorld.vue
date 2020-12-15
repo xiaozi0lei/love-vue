@@ -1,23 +1,67 @@
 <template>
-    <!-- 这里router-link to="newcontact"会把路由导航到http://localhost:8080/#/newcontact   -->
-   <h1 @click="onJump">{{ msg }}</h1>
-    
+  <el-row>
+    <router-link to="newcontact"
+      ><h1>{{ msg }}</h1></router-link
+    >
+    <div class="demo-image__preview">
+      <el-image
+        v-for="(img, index) in srcList"
+        :src="img"
+        v-bind:key="index"
+        style="width: 300px; height: 300px"
+        :preview-src-list="srcList"
+      >
+      </el-image>
+    </div>
+
+    <el-upload
+      list-type="picture-card"
+      :action="this.SERVER.http + '/file/upload'"
+    >
+      <i class="el-icon-plus"></i>
+    </el-upload>
+  </el-row>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  
+  name: "HelloWorld",
+  // props: {
+  //   msg: String
+  // },
+  data() {
+    return {
+      msg: "sunguolei",
+      url:
+        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+      srcList: []
+    };
   },
-  methods: {
-    onJump() {
-      this.$router.push({
-        path: '/newcontact'
-      })
+  // 图片上传前验证
+   beforeAvatarUpload (file) {
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+     this.$message.error('上传头像图片大小不能超过 2MB!')
     }
+    return isLt2M
+   },
+// created:vue生命周期中的钩子函数，在这个时间点，data中的数据已经注入到响应式系统中
+  created(){
+    axios.get(this.SERVER.http+'/file/list',{       // 还可以直接把参数拼接在url后边
+        params:{
+        }
+    }).then((res) => {
+      console.log(res.data.data)
+      console.log(this);
+      this.srcList = res.data.data;
+    }).catch(function (error) {
+        console.log(error);
+    });
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

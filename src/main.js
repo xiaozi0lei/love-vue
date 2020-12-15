@@ -3,7 +3,9 @@ import 'element-ui/lib/theme-chalk/index.css' //新添加，避免后期打包�
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
-
+//配置全局api
+import server from './config/server.js'    //先引入文件
+Vue.prototype.SERVER=server;   //将引入的文件挂载到vue的原型中
 Vue.use(ElementUI)   //新添加
 Vue.config.productionTip = false
 
