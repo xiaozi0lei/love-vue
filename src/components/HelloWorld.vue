@@ -37,7 +37,7 @@ export default {
   // },
   data() {
     return {
-      msg: "sunguolei",
+      msg: "石头❤️卜卜",
       dialogImageUrl: "",
         dialogVisible: false,
         // fileList: [],
