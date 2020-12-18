@@ -10,6 +10,7 @@
         v-bind:key="index"
         style="width: 300px; height: 300px"
         :preview-src-list="srcList"
+        :fit="fill"
       >
       </el-image>
     </div>
@@ -17,9 +18,11 @@
     <el-upload
       list-type="picture-card"
       :action="this.SERVER.http + '/file/upload'"
-    >
+      :on-preview="handlePictureCardPreview"
+  :on-remove="handleRemove">
       <i class="el-icon-plus"></i>
     </el-upload>
+
   </el-row>
 </template>
 
@@ -35,11 +38,32 @@ export default {
   data() {
     return {
       msg: "sunguolei",
-      url:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+      dialogImageUrl: "",
+        dialogVisible: false,
+        // fileList: [],
+      // url:
+      //   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       srcList: []
     };
   },
+  // computed: {
+  //     fileList() {
+  //       let fileList=[];
+  //       for(let i=0;i<this.value.length;i++){
+  //         fileList.push({url:this.value[i]});
+  //       }
+  //       return fileList;
+  //     }
+  //   },
+  methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
+    },
   // 图片上传前验证
    beforeAvatarUpload (file) {
     const isLt2M = file.size / 1024 / 1024 < 2
@@ -54,8 +78,11 @@ export default {
         params:{
         }
     }).then((res) => {
-      console.log(res.data.data)
-      console.log(this);
+      console.log(res.data.data);
+      // console.log(this);
+      // res.data.data.forEach(element => {
+      //   this.fileList.push({url: element});
+      // });
       this.srcList = res.data.data;
     }).catch(function (error) {
         console.log(error);
