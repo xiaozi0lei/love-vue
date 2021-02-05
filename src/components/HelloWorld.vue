@@ -1,8 +1,8 @@
 <template>
   <el-row>
-    <router-link to="newcontact"
-      ><h1>{{ msg }}</h1></router-link
-    >
+    <router-link to="newcontact"><h1>{{ msg }}</h1></router-link>
+    <a :href ="'https://blog.guoleishenbo.top/'"><h2>Blog</h2></a>
+
     <div class="demo-image__preview">
       <el-image
         v-for="(img, index) in srcList"
